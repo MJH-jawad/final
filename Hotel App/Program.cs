@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Hotel_App
 {
-    internal class Program
+    public class Program
     {
         static List<User> users = new List<User>();
         
