@@ -1,20 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Hotel_App
 {
     public class Program
     {
         static List<User> users = new List<User>();
-        
-        private static string firstName;
+        static List<Room> rooms = new List<Room>();
+        static List<Booking> bookings = new List<Booking>();
+        static string loggedInUser = "";
 
-        static void Main(string[] args)
+
+        public static void Main(string[] args)
         {
             users.Add(new User("admin", "1234", "Admin"));
             users.Add(new User("customer", "1234", "Customer"));
-            
-            
+
+            rooms.Add(new Room(101, "Normal", 100));
+            rooms.Add(new Room(102, "Premium", 180));
+            rooms.Add(new Room(103, "Suite", 250));
 
             do 
             {
@@ -47,7 +52,7 @@ namespace Hotel_App
             }while (true);
         }//end of main
 
-        static void Login()
+        public static void Login()
         {
             Console.Write("Username: ");
             string username = Console.ReadLine();
@@ -56,9 +61,10 @@ namespace Hotel_App
             string password = Console.ReadLine();
 
             foreach (User user in users)
-            {//1111111111111111111111111111
+            {
                 if (user.UserName == username && user.Password == password)
                 {
+                    loggedInUser = username;
                     Console.WriteLine("you've Login Success!");
 
                     switch (user.Role)
@@ -78,7 +84,7 @@ namespace Hotel_App
             Console.WriteLine("Wrong username/password");
         }//end of login
 
-        static void Register()
+        public static void Register()
         {
             Console.Write("New Username: ");
             string userName = Console.ReadLine();
@@ -91,7 +97,7 @@ namespace Hotel_App
             Console.WriteLine("Registration Successful");
         }//end of Regisrer 
 
-        static void AdminMenu()
+        public static void AdminMenu()
         {
             bool run = true;
 
@@ -112,29 +118,55 @@ namespace Hotel_App
                 switch (choice)
                 {
                     case "1":
-                        Console.WriteLine("you want to View Rooms");
+                        foreach (Room room in rooms)
+                        {
+                            room.DisplayRoom();
+                        }
                         break;
 
                     case "2":
-                        Console.Write("You want to add rooms");
+                        Console.Write("Room No: ");
+                        int no = Convert.ToInt32(Console.ReadLine());
+
+                        Console.Write("Type: ");
+                        string type = Console.ReadLine();
+
+                        Console.Write("Price: ");
+                        double price = Convert.ToDouble(Console.ReadLine());
+
+                        rooms.Add(new Room(no, type, price));
+                        Console.WriteLine("Room Added");
                         break;
 
                     case "3":
-                        Console.Write("you want to Remove Room");
+                        Console.Write("Room No: ");
+                        int removeNo = Convert.ToInt32(Console.ReadLine());
+
+                        for (int i = 0; i < rooms.Count; i++)
+                        {
+                            if (rooms[i].RoomNo == removeNo)
+                            {
+                                rooms.RemoveAt(i);
+                                Console.WriteLine("Room Removed");
+                                break;
+                            }
+                        }
                         break;
 
                     case "4":
-                        Console.WriteLine("you want to View Bookings");
+                        ViewAllBookings();
                         break;
                     case "5":
-                        Console.WriteLine("you want to SearchRoom");
+                        SearchRoom();
                         break;
                     case "6":
-                        Console.WriteLine("you want to UpdateRoom");
+                        UpdateRoom();
                         break;
 
                     case "99":
-                        Environment.Exit(0);
+                        run = false;
+                        loggedInUser = "";
+                        Console.WriteLine("Logged out successfully.");
                         break;
                     default:
                         Console.WriteLine("Wrong option");
@@ -143,7 +175,51 @@ namespace Hotel_App
             } while (run);
         }// end of admin
 
-        static void CustomerMenu()
+        public static void SearchRoom()
+        {
+            Console.Write("Enter Room Number to Search: ");
+            int roomNo = Convert.ToInt32(Console.ReadLine());
+
+            foreach (Room room in rooms)
+            {
+                if (room.RoomNo == roomNo)
+                {
+                    Console.WriteLine("Room Found!");
+                    Console.WriteLine("******************");
+                    Console.WriteLine("Room No = " + room.RoomNo);
+                    Console.WriteLine("Room Type = " + room.RoomType);
+                    Console.WriteLine("Price = $" + room.Price);
+                    Console.WriteLine("Availability = " + (room.IsAvailable ? "Available" : "Booked / Not Available"));
+                    return;
+                }
+            }
+
+            Console.WriteLine("Room not found.");
+        }//end of searchRoom
+
+        public static void UpdateRoom()
+        {
+            Console.Write("Enter Room Number to Update: ");
+            int roomNo = Convert.ToInt32(Console.ReadLine());
+
+            foreach (Room room in rooms)
+            {
+                if (room.RoomNo == roomNo)
+                {
+                    Console.Write("New Room Type: ");
+                    room.RoomType = Console.ReadLine();
+
+                    Console.Write("New Price: ");
+                    room.Price = Convert.ToDouble(Console.ReadLine());
+
+                    Console.WriteLine("Room Updated Successfully.");
+                    return;
+                }
+            }
+
+            Console.WriteLine("Room not found.");
+        }//end of update rooms
+        public static void CustomerMenu()
         {
             bool run = true;
 
@@ -153,25 +229,150 @@ namespace Hotel_App
                 Console.WriteLine("***********************************************");
                 Console.WriteLine("1.View Rooms");
                 Console.WriteLine("2.Book Room");
-                Console.WriteLine("99.Logout");
+                Console.WriteLine("3.View My Booking");
+                Console.WriteLine("4.Logout");
 
                 string choice = Console.ReadLine();
 
                 switch (choice)
                 {
                     case "1":
-                        Console.WriteLine("View Rooms");
+                        foreach (Room room in rooms)
+                        {
+                            room.DisplayRoom();
+                        }
                         break;
 
                     case "2":
-                        Console.WriteLine("Book Room");
+                        MakeBooking();
                         break;
 
-                    case "99":
+                    case "3":
+                        ViewMyBookings();
+                        break;
+
+                    case "4":
                         run = false;
+                        loggedInUser = "";
+                        Console.WriteLine("Logged out successfully.");
+                        break;
+
+                    default:
+                        Console.WriteLine("Wrong option");
                         break;
                 }
             } while (run);
-        }
+        }// end of CustomerMenu
+        public static void MakeBooking()
+        {
+            int availableCount = 0;
+
+            Console.WriteLine("\nAvailable Rooms:");
+            Console.WriteLine("****************");
+
+            foreach (Room room in rooms)
+            {
+                if (room.IsAvailable == true)
+                {
+                    room.DisplayRoom();
+                    availableCount++;
+                }
+            }
+
+            Console.WriteLine("Total Available Rooms: " + availableCount);
+
+            if (availableCount == 0)
+            {
+                Console.WriteLine("Sorry, there are no rooms available right now.");
+                return;
+            }
+
+            Console.WriteLine("\nCHECK-IN INFORMATION");
+            Console.WriteLine("Each booking starts from 7:00 AM.");
+            Console.WriteLine("The booking ends at 7:00 AM on the check-out day.");
+            Console.WriteLine("Example: 1 day = 7:00 AM today to 7:00 AM tomorrow.");
+
+            Console.Write("Choose Room No: ");
+            int roomNo = Convert.ToInt32(Console.ReadLine());
+
+            foreach (Room room in rooms)
+            {
+                if (room.RoomNo == roomNo && room.IsAvailable == true)
+                {
+                    Console.Write("First Name: ");
+                    string firstName = Console.ReadLine();
+
+                    Console.Write("Last Name: ");
+                    string lastName = Console.ReadLine();
+
+                    Console.Write("Phone No: ");
+                    string phoneNo = Console.ReadLine();
+
+                    Console.WriteLine("Enter your check-in date using dd/mm/yyyy");
+                    Console.WriteLine("Example: 15/06/2026");
+                    Console.Write("Check-in Date: ");
+
+                    DateTime checkInDate;
+                    while (!DateTime.TryParseExact(Console.ReadLine(), "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out checkInDate))
+                    {
+                        Console.WriteLine("Invalid date. Please use dd/mm/yyyy.");
+                        Console.WriteLine("Example: 15/06/2026");
+                        Console.Write("Check-in Date: ");
+                    }
+
+                    Console.Write("How many days do you want to book?: ");
+                    int numberOfDays = Convert.ToInt32(Console.ReadLine());
+
+                    DateTime checkOutDate = checkInDate.AddDays(numberOfDays);
+                    double totalPrice = room.Price * numberOfDays;
+
+                    Booking newBooking = new Booking(loggedInUser, firstName, lastName, phoneNo, checkInDate, checkOutDate, numberOfDays, room.RoomNo, room.RoomType, totalPrice);
+                    bookings.Add(newBooking);
+
+                    room.IsAvailable = false;
+
+                    Console.WriteLine("Booking Successful");
+                    Console.WriteLine("Here is your booking:");
+                    newBooking.DisplayBooking();
+                    return;
+                }
+            }
+
+            Console.WriteLine("Room not available");
+        }//end of MakeBooking
+
+
+        public static void ViewAllBookings()
+        {
+            if (bookings.Count == 0)
+            {
+                Console.WriteLine("No customer bookings found.");
+                return;
+            }
+
+            foreach (Booking booking in bookings)
+            {
+                booking.DisplayBooking();
+            }
+        }//end of ViewAllBookings
+
+        public static void ViewMyBookings()
+        {
+            bool found = false;
+
+            foreach (Booking booking in bookings)
+            {
+                if (booking.UserName == loggedInUser)
+                {
+                    booking.DisplayBooking();
+                    found = true;
+                }
+            }
+
+            if (found == false)
+            {
+                Console.WriteLine("No booking found.");
+            }
+        }//end of ViewMyBookings
     }//end of program class
 }
