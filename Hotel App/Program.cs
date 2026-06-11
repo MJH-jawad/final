@@ -139,7 +139,7 @@ namespace Hotel_App
                         break;
 
                     case "3":
-                        Console.Write("Room No: ");
+                        Console.Write("Room No: ");                             //start Jawad
                         int removeNo = Convert.ToInt32(Console.ReadLine());
 
                         for (int i = 0; i < rooms.Count; i++)
@@ -150,23 +150,23 @@ namespace Hotel_App
                                 Console.WriteLine("Room Removed");
                                 break;
                             }
-                        }
+                        }                                                        //end Jawad
                         break;
 
                     case "4":
-                        ViewAllBookings();
+                        ViewAllBookings();                          //Jawad
                         break;
                     case "5":
-                        SearchRoom();
+                        SearchRoom();                               //Jawad
                         break;
                     case "6":
-                        UpdateRoom();
+                        UpdateRoom();                               //Jawad
                         break;
 
                     case "99":
-                        run = false;
+                        run = false;                                                //Start Jawad
                         loggedInUser = "";
-                        Console.WriteLine("Logged out successfully.");
+                        Console.WriteLine("Logged out successfully.");              //End Jawad
                         break;
                     default:
                         Console.WriteLine("Wrong option");
