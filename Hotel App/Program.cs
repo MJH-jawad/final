@@ -7,8 +7,8 @@ namespace Hotel_App
     public class Program
     {
         static List<User> users = new List<User>();
-        static List<Room> rooms = new List<Room>();
-        static List<Booking> bookings = new List<Booking>();
+        static List<Room> rooms = new List<Room>();                 //Jawad
+        static List<Booking> bookings = new List<Booking>();        //Jawad
         static string loggedInUser = "";
 
 
@@ -17,9 +17,9 @@ namespace Hotel_App
             users.Add(new User("admin", "1234", "Admin"));
             users.Add(new User("customer", "1234", "Customer"));
 
-            rooms.Add(new Room(101, "Normal", 100));
-            rooms.Add(new Room(102, "Premium", 180));
-            rooms.Add(new Room(103, "Suite", 250));
+            rooms.Add(new Room(101, "Normal", 100));        //Jawad
+            rooms.Add(new Room(102, "Premium", 180));       //Jawad
+            rooms.Add(new Room(103, "Suite", 250));         //Jawad
 
             do 
             {
@@ -118,14 +118,14 @@ namespace Hotel_App
                 switch (choice)
                 {
                     case "1":
-                        foreach (Room room in rooms)
+                        foreach (Room room in rooms)    //start Jawad
                         {
-                            room.DisplayRoom();
+                            room.DisplayRoom();            
                         }
-                        break;
+                        break;                          //end Jawad
 
                     case "2":
-                        Console.Write("Room No: ");
+                        Console.Write("Room No: ");                              //start Jawad
                         int no = Convert.ToInt32(Console.ReadLine());
 
                         Console.Write("Type: ");
@@ -135,7 +135,7 @@ namespace Hotel_App
                         double price = Convert.ToDouble(Console.ReadLine());
 
                         rooms.Add(new Room(no, type, price));
-                        Console.WriteLine("Room Added");
+                        Console.WriteLine("Room Added");                         //end Jawad
                         break;
 
                     case "3":
