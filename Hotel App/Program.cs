@@ -175,7 +175,7 @@ namespace Hotel_App
             } while (run);
         }// end of admin
 
-        public static void SearchRoom()
+        public static void SearchRoom()                                 //Start Jawad
         {
             Console.Write("Enter Room Number to Search: ");
             int roomNo = Convert.ToInt32(Console.ReadLine());
@@ -218,7 +218,7 @@ namespace Hotel_App
             }
 
             Console.WriteLine("Room not found.");
-        }//end of update rooms
+        }//end of update rooms                                                                              //End Jawad
         public static void CustomerMenu()
         {
             bool run = true;
@@ -229,7 +229,7 @@ namespace Hotel_App
                 Console.WriteLine("***********************************************");
                 Console.WriteLine("1.View Rooms");
                 Console.WriteLine("2.Book Room");
-                Console.WriteLine("3.View My Booking");
+                Console.WriteLine("3.View My Booking");                                 //Jawad
                 Console.WriteLine("4.Logout");
 
                 string choice = Console.ReadLine();
@@ -237,10 +237,10 @@ namespace Hotel_App
                 switch (choice)
                 {
                     case "1":
-                        foreach (Room room in rooms)
+                        foreach (Room room in rooms)            //Start Jawad
                         {
                             room.DisplayRoom();
-                        }
+                        }                                       
                         break;
 
                     case "2":
@@ -372,7 +372,7 @@ namespace Hotel_App
             if (found == false)
             {
                 Console.WriteLine("No booking found.");
-            }
+            }                                                                           //End Jawad
         }//end of ViewMyBookings
     }//end of program class
 }
