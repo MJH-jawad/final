@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Hotel_App
 {
     internal class Customer:User
-    {
+    {                               //S.A
         public string userName;
         public string password;
         public string role;

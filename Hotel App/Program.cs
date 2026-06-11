@@ -6,7 +6,7 @@ namespace Hotel_App
 {
     public class Program
     {
-        static List<User> users = new List<User>();
+        static List<User> users = new List<User>();                 //S.A
         static List<Room> rooms = new List<Room>();                 //Jawad
         static List<Booking> bookings = new List<Booking>();        //Jawad
         static string loggedInUser = "";
@@ -14,15 +14,15 @@ namespace Hotel_App
 
         public static void Main(string[] args)
         {
-            users.Add(new User("admin", "1234", "Admin"));
-            users.Add(new User("customer", "1234", "Customer"));
+            users.Add(new User("admin", "1234", "Admin"));  //S.A
+            users.Add(new User("customer", "1234", "Customer"));  //S.A
 
             rooms.Add(new Room(101, "Normal", 100));        //Jawad
             rooms.Add(new Room(102, "Premium", 180));       //Jawad
             rooms.Add(new Room(103, "Suite", 250));         //Jawad
 
             do 
-            {
+            {                   //S.A
                 Console.WriteLine("\n********** JS HOTEL *************");
                 Console.WriteLine("***********************************");
                 Console.WriteLine("1. Login");
@@ -51,7 +51,7 @@ namespace Hotel_App
                 }//end of switch
             }while (true);
         }//end of main
-
+                             //S.A
         public static void Login()
         {
             Console.Write("Username: ");
@@ -83,7 +83,8 @@ namespace Hotel_App
 
             Console.WriteLine("Wrong username/password");
         }//end of login
-
+                         
+                         //S.A
         public static void Register()
         {
             Console.Write("New Username: ");
@@ -97,6 +98,7 @@ namespace Hotel_App
             Console.WriteLine("Registration Successful");
         }//end of Regisrer 
 
+                                //S.A
         public static void AdminMenu()
         {
             bool run = true;
@@ -218,7 +220,9 @@ namespace Hotel_App
             }
 
             Console.WriteLine("Room not found.");
-        }//end of update rooms                                                                              //End Jawad
+        }//end of update rooms //End Jawad
+
+                                 // S.A
         public static void CustomerMenu()
         {
             bool run = true;
