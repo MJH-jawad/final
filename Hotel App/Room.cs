@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hotel_App
 {
+    //Start Jawad
     public class Room
     {
         public int RoomNo;
@@ -28,6 +29,6 @@ namespace Hotel_App
             Console.WriteLine("Room Type    : " + RoomType);
             Console.WriteLine("Price/Night  : $" + Price);
             Console.WriteLine("Available    : " + (IsAvailable ? "Yes" : "No"));
-        }
+        }//End of DisplayRoom   
     }
-}
+}//End of Jawad
