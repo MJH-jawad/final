@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hotel_App
 {
+    //Start Jawad
     public class Booking
     {
         public string UserName;
@@ -46,6 +47,6 @@ namespace Hotel_App
             Console.WriteLine("Room Type      : " + RoomType);
             Console.WriteLine("Total Price    : $" + TotalPrice);
             Console.WriteLine("--------------------------------");
-        }
+        }//End of DisplayBooking
     }
-}
+}//End Jawad
